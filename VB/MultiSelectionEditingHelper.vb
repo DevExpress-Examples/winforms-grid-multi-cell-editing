@@ -1,0 +1,71 @@
+﻿Imports System
+Imports System.Collections.Generic
+Imports System.Windows.Forms
+Imports DevExpress.XtraGrid.Views.Grid
+Imports DevExpress.Utils
+Imports DevExpress.XtraGrid.Views.Base
+Imports DevExpress.XtraGrid.Views.Grid.ViewInfo
+
+Namespace WindowsApplication1
+    Public Class MultiSelectionEditingHelper
+        Public Sub New(ByVal view As GridView)
+            Me.view = view
+            Me.view.OptionsBehavior.EditorShowMode = EditorShowMode.MouseDownFocused
+            AddHandler Me.view.MouseUp, AddressOf view_MouseUp
+            AddHandler Me.view.CellValueChanged, AddressOf view_CellValueChanged
+            AddHandler Me.view.MouseDown, AddressOf view_MouseDown
+        End Sub
+
+        Private view As GridView
+
+        Private Sub view_MouseDown(ByVal sender As Object, ByVal e As MouseEventArgs)
+            If GetInSelectedCell(e) Then
+                Dim hi As GridHitInfo = view.CalcHitInfo(e.Location)
+                If view.FocusedRowHandle = hi.RowHandle Then
+                    view.FocusedColumn = hi.Column
+                    DXMouseEventArgs.GetMouseArgs(e).Handled = True
+                End If
+            End If
+        End Sub
+
+        Private Sub view_CellValueChanged(ByVal sender As Object, ByVal e As CellValueChangedEventArgs)
+            OnCellValueChanged(e)
+        End Sub
+
+        Private lockEvents As Boolean
+        Private Sub OnCellValueChanged(ByVal e As CellValueChangedEventArgs)
+            If lockEvents Then
+                Return
+            End If
+            lockEvents = True
+            SetSelectedCellsValues(e.Value)
+            lockEvents = False
+        End Sub
+
+        Private Sub SetSelectedCellsValues(ByVal value As Object)
+            Try
+                view.BeginUpdate()
+                Dim cells() As GridCell = view.GetSelectedCells()
+                For Each cell As GridCell In cells
+                    view.SetRowCellValue(cell.RowHandle, cell.Column, value)
+                Next cell
+            Catch ex As Exception
+            Finally
+                view.EndUpdate()
+            End Try
+        End Sub
+
+        Private Function GetInSelectedCell(ByVal e As MouseEventArgs) As Boolean
+            Dim hi As GridHitInfo = view.CalcHitInfo(e.Location)
+            Return hi.InRowCell AndAlso view.IsCellSelected(hi.RowHandle, hi.Column)
+        End Function
+
+        Private Sub view_MouseUp(ByVal sender As Object, ByVal e As MouseEventArgs)
+            Dim inSelectedCell As Boolean = GetInSelectedCell(e)
+            If inSelectedCell Then
+                DXMouseEventArgs.GetMouseArgs(e).Handled = True
+                view.ShowEditorByMouse()
+            End If
+        End Sub
+    End Class
+End Namespace
