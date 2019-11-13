@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.Utils;
-using DevExpress.XtraGrid.Views.Base;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using System;
+using System.Windows.Forms;
 
-namespace WindowsApplication1
-{
+namespace WindowsApplication1 {
     public partial class Form1 : Form
     {
         public Form1()
         {
             InitializeComponent();
+            RadioGroup radioGroup = new RadioGroup() { Dock = DockStyle.Top };
+            radioGroup.Height = 30;
+            Controls.Add(radioGroup);
+            radioGroup.Properties.Columns = 3;
+            radioGroup.Properties.Items.Add(new DevExpress.XtraEditors.Controls.RadioGroupItem(ChangeMode.All, "All"));
+            radioGroup.Properties.Items.Add(new DevExpress.XtraEditors.Controls.RadioGroupItem(ChangeMode.Row, "Row"));
+            radioGroup.Properties.Items.Add(new DevExpress.XtraEditors.Controls.RadioGroupItem(ChangeMode.Column, "Column"));
+            radioGroup.EditValue = ChangeMode.All;
             gridControl1.DataSource = DataHelper.CreateTable(20);
             gridView1.OptionsSelection.MultiSelect = true;
             gridView1.OptionsSelection.MultiSelectMode = GridMultiSelectMode.CellSelect;
@@ -27,7 +27,7 @@ namespace WindowsApplication1
             for (int i = 0; i < 10; i++)
                 ri.Items.Add(String.Format("Test{0}", i));
 
-            new MultiSelectionEditingHelper(gridView1);
+            new MultiSelectionEditingHelper(gridView1, radioGroup);
         }
     }
 }

@@ -5,21 +5,25 @@ using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.Utils;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Columns;
 
 namespace WindowsApplication1
 {
     public class MultiSelectionEditingHelper
     {
-        public MultiSelectionEditingHelper(GridView view)
+
+        private GridView view;
+        private RadioGroup radioGroup;
+        public MultiSelectionEditingHelper(GridView view, RadioGroup radioGroup)
         {
+            this.radioGroup = radioGroup;
             this.view = view;
             this.view.OptionsBehavior.EditorShowMode = EditorShowMode.MouseDownFocused;
             this.view.MouseUp += view_MouseUp;
             this.view.CellValueChanged += view_CellValueChanged;
             this.view.MouseDown += view_MouseDown;
         }
-
-        private GridView view;
 
         void view_MouseDown(object sender, MouseEventArgs e)
         {
@@ -51,14 +55,27 @@ namespace WindowsApplication1
 
         private void SetSelectedCellsValues(object value)
         {
-            try
-            {
+            try {
                 view.BeginUpdate();
                 GridCell[] cells = view.GetSelectedCells();
-                foreach (GridCell cell in cells)
-                    view.SetRowCellValue(cell.RowHandle, cell.Column, value);
+                ChangeMode mode = (ChangeMode)radioGroup.EditValue;
+                foreach(GridCell cell in cells) {
+                    int rowHandle = cell.RowHandle;
+                    GridColumn column = cell.Column;
+                    switch(mode) {
+                        case ChangeMode.All:
+                            break;
+                        case ChangeMode.Column:
+                            column = view.FocusedColumn;
+                            break;
+                        case ChangeMode.Row:
+                            rowHandle = view.FocusedRowHandle;
+                            break;
+                    }
+                    view.SetRowCellValue(rowHandle, column, value);
+                }
             }
-            catch (Exception ex) { }
+            catch(Exception ex) { }
             finally { view.EndUpdate(); }
         }
 
@@ -77,5 +94,10 @@ namespace WindowsApplication1
                 view.ShowEditorByMouse();
             }
         }
+    }
+    public enum ChangeMode {
+        All,
+        Row,
+        Column
     }
 }
