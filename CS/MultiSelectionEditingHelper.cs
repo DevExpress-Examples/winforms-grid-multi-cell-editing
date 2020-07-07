@@ -94,6 +94,12 @@ namespace WindowsApplication1
                 view.ShowEditorByMouse();
             }
         }
+        public void Disable() {
+            view.MouseUp -= view_MouseUp;
+            view.CellValueChanged -= view_CellValueChanged;
+            view.MouseDown -= view_MouseDown;
+            view = null;
+        }
     }
     public enum ChangeMode {
         All,

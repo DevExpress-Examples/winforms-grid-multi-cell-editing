@@ -7,6 +7,7 @@ using System.Windows.Forms;
 namespace WindowsApplication1 {
     public partial class Form1 : Form
     {
+        MultiSelectionEditingHelper helper;
         public Form1()
         {
             InitializeComponent();
@@ -27,7 +28,12 @@ namespace WindowsApplication1 {
             for (int i = 0; i < 10; i++)
                 ri.Items.Add(String.Format("Test{0}", i));
 
-            new MultiSelectionEditingHelper(gridView1, radioGroup);
+            helper = new MultiSelectionEditingHelper(gridView1, radioGroup);
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e) {
+            helper.Disable();
+            helper = null;
+            base.OnFormClosing(e);
         }
     }
 }
