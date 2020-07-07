@@ -17,9 +17,9 @@ Namespace WindowsApplication1
 			Me.radioGroup = radioGroup
 			Me.view = view
 			Me.view.OptionsBehavior.EditorShowMode = EditorShowMode.MouseDownFocused
-			AddHandler Me.view.MouseUp, AddressOf view_MouseUp
-			AddHandler Me.view.CellValueChanged, AddressOf view_CellValueChanged
-			AddHandler Me.view.MouseDown, AddressOf view_MouseDown
+			AddHandler view.MouseUp, AddressOf view_MouseUp
+			AddHandler view.CellValueChanged, AddressOf view_CellValueChanged
+			AddHandler view.MouseDown, AddressOf view_MouseDown
 		End Sub
 
 		Private Sub view_MouseDown(ByVal sender As Object, ByVal e As MouseEventArgs)
@@ -80,6 +80,12 @@ Namespace WindowsApplication1
 				DXMouseEventArgs.GetMouseArgs(e).Handled = True
 				view.ShowEditorByMouse()
 			End If
+		End Sub
+		Public Sub Disable()
+			RemoveHandler view.MouseUp, AddressOf view_MouseUp
+			RemoveHandler view.CellValueChanged, AddressOf view_CellValueChanged
+			RemoveHandler view.MouseDown, AddressOf view_MouseDown
+			view = Nothing
 		End Sub
 	End Class
 	Public Enum ChangeMode

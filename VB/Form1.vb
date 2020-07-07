@@ -8,6 +8,7 @@ Namespace WindowsApplication1
 	Partial Public Class Form1
 		Inherits Form
 
+		Private helper As MultiSelectionEditingHelper
 		Public Sub New()
 			InitializeComponent()
 			Dim radioGroup As New RadioGroup() With {.Dock = DockStyle.Top}
@@ -28,7 +29,12 @@ Namespace WindowsApplication1
 				ri.Items.Add(String.Format("Test{0}", i))
 			Next i
 
-			Dim tempVar As New MultiSelectionEditingHelper(gridView1, radioGroup)
+			helper = New MultiSelectionEditingHelper(gridView1, radioGroup)
+		End Sub
+		Protected Overrides Sub OnFormClosing(ByVal e As FormClosingEventArgs)
+			helper.Disable()
+			helper = Nothing
+			MyBase.OnFormClosing(e)
 		End Sub
 	End Class
 End Namespace
