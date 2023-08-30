@@ -3,13 +3,50 @@
 [![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/E2779)
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
-# How to edit multiple values in GridView at the same time
+# WinForms Data Grid - Simultaneous editing of several cell values
+
+This example shows how to edit the values ​​in selected cells at the same time.
+
+![Edit Values in Selected Cells - WinForms Data Grid](https://raw.githubusercontent.com/DevExpress-Examples/how-to-edit-multiple-values-in-gridview-at-the-same-time-e2779/13.1.4+/media/ff30315e-29e4-4c71-9772-bd893bb6bab2.png)
+
+```csharp
+bool lockEvents;
+private void OnCellValueChanged(CellValueChangedEventArgs e)
+{
+    if (lockEvents)
+        return;
+    lockEvents = true;
+    SetSelectedCellsValues(e.Value);
+    lockEvents = false;
+}
+private void SetSelectedCellsValues(object value)
+{
+    try {
+        view.BeginUpdate();
+        GridCell[] cells = view.GetSelectedCells();
+        ChangeMode mode = (ChangeMode)radioGroup.EditValue;
+        foreach(GridCell cell in cells) {
+            int rowHandle = cell.RowHandle;
+            GridColumn column = cell.Column;
+            switch(mode) {
+                case ChangeMode.All:
+                    break;
+                case ChangeMode.Column:
+                    column = view.FocusedColumn;
+                    break;
+                case ChangeMode.Row:
+                    rowHandle = view.FocusedRowHandle;
+                    break;
+            }
+            view.SetRowCellValue(rowHandle, column, value);
+        }
+    }
+    catch(Exception ex) { }
+    finally { view.EndUpdate(); }
+}
+```
 
 
-<p><br />
-This example demonstrates how to provide the capability to an end-user to edit multiple selected cells values at once:<br />
-<img src="https://raw.githubusercontent.com/DevExpress-Examples/how-to-edit-multiple-values-in-gridview-at-the-same-time-e2779/13.1.4+/media/ff30315e-29e4-4c71-9772-bd893bb6bab2.png"></p>
+## Files to Review
 
-<br/>
-
-
+* [Form1.cs](./CS/MultiSelectionEditingHelper.cs) (VB: [Form1.vb](./VB/MultiSelectionEditingHelper.vb))
