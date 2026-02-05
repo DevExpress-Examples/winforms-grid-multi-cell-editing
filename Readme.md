@@ -6,51 +6,10 @@
 <!-- default badges end -->
 # WinForms Data Grid - Simultaneous editing of several cell values
 
-This example shows how to edit the values ​​in selected cells at the same time.
+Starting with v25.2, WinForms Data Grid and TreeList controls support multi-cell editing. For details, see ![Multi Cell Edit Behavior](https://docs.devexpress.com/WindowsForms/405624/common-features/behaviors/multi-cell-edit-behavior).
 
 ![Edit Values in Selected Cells - WinForms Data Grid](https://raw.githubusercontent.com/DevExpress-Examples/how-to-edit-multiple-values-in-gridview-at-the-same-time-e2779/13.1.4+/media/ff30315e-29e4-4c71-9772-bd893bb6bab2.png)
 
-```csharp
-bool lockEvents;
-private void OnCellValueChanged(CellValueChangedEventArgs e)
-{
-    if (lockEvents)
-        return;
-    lockEvents = true;
-    SetSelectedCellsValues(e.Value);
-    lockEvents = false;
-}
-private void SetSelectedCellsValues(object value)
-{
-    try {
-        view.BeginUpdate();
-        GridCell[] cells = view.GetSelectedCells();
-        ChangeMode mode = (ChangeMode)radioGroup.EditValue;
-        foreach(GridCell cell in cells) {
-            int rowHandle = cell.RowHandle;
-            GridColumn column = cell.Column;
-            switch(mode) {
-                case ChangeMode.All:
-                    break;
-                case ChangeMode.Column:
-                    column = view.FocusedColumn;
-                    break;
-                case ChangeMode.Row:
-                    rowHandle = view.FocusedRowHandle;
-                    break;
-            }
-            view.SetRowCellValue(rowHandle, column, value);
-        }
-    }
-    catch(Exception ex) { }
-    finally { view.EndUpdate(); }
-}
-```
-
-
-## Files to Review
-
-* [Form1.cs](./CS/MultiSelectionEditingHelper.cs) (VB: [Form1.vb](./VB/MultiSelectionEditingHelper.vb))
 <!-- feedback -->
 ## Does this example address your development requirements/objectives?
 
@@ -58,3 +17,4 @@ private void SetSelectedCellsValues(object value)
 
 (you will be redirected to DevExpress.com to submit your response)
 <!-- feedback end -->
+
