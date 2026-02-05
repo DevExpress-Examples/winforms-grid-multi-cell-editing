@@ -25,6 +25,7 @@ Namespace WindowsApplication1
         ''' the contents of this method with the code editor.
         ''' </summary>
         Private Sub InitializeComponent()
+            Me.components = New System.ComponentModel.Container()
             Me.gridControl1 = New DevExpress.XtraGrid.GridControl()
             Me.gridView1 = New DevExpress.XtraGrid.Views.Grid.GridView()
             Me.gridColumn1 = New DevExpress.XtraGrid.Columns.GridColumn()
@@ -32,9 +33,11 @@ Namespace WindowsApplication1
             Me.gridColumn3 = New DevExpress.XtraGrid.Columns.GridColumn()
             Me.gridColumn4 = New DevExpress.XtraGrid.Columns.GridColumn()
             Me.gridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
+            Me.behaviorManager1 = New DevExpress.Utils.Behaviors.BehaviorManager(Me.components)
             CType((Me.gridControl1), System.ComponentModel.ISupportInitialize).BeginInit()
             CType((Me.gridView1), System.ComponentModel.ISupportInitialize).BeginInit()
             CType((Me.gridView2), System.ComponentModel.ISupportInitialize).BeginInit()
+            CType((Me.behaviorManager1), System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             ' 
             ' gridControl1
@@ -101,6 +104,7 @@ Namespace WindowsApplication1
             CType((Me.gridControl1), System.ComponentModel.ISupportInitialize).EndInit()
             CType((Me.gridView1), System.ComponentModel.ISupportInitialize).EndInit()
             CType((Me.gridView2), System.ComponentModel.ISupportInitialize).EndInit()
+            CType((Me.behaviorManager1), System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
         End Sub
 
@@ -118,5 +122,7 @@ Namespace WindowsApplication1
         Private gridColumn3 As DevExpress.XtraGrid.Columns.GridColumn
 
         Private gridColumn4 As DevExpress.XtraGrid.Columns.GridColumn
+
+        Private behaviorManager1 As DevExpress.Utils.Behaviors.BehaviorManager
     End Class
 End Namespace
