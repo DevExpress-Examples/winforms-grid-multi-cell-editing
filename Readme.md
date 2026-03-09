@@ -8,7 +8,7 @@
 
 This example shows how to edit the values ​​in selected cells at the same time.
 
-![Edit Values in Selected Cells - WinForms Data Grid](https://raw.githubusercontent.com/DevExpress-Examples/how-to-edit-multiple-values-in-gridview-at-the-same-time-e2779/13.1.4+/media/ff30315e-29e4-4c71-9772-bd893bb6bab2.png)
+![Edit Values in Selected Cells - WinForms Data Grid](media/ff30315e-29e4-4c71-9772-bd893bb6bab2.png)
 
 ```csharp
 bool lockEvents;
@@ -58,3 +58,4 @@ private void SetSelectedCellsValues(object value)
 
 (you will be redirected to DevExpress.com to submit your response)
 <!-- feedback end -->
+
