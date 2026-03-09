@@ -8,7 +8,7 @@
 
 Starting with <b>v25.2</b>, WinForms Data Grid and TreeList controls support multi-cell editing. For details, see [Multi Cell Edit Behavior](https://docs.devexpress.com/WindowsForms/405624/common-features/behaviors/multi-cell-edit-behavior).
 
-![Edit Values in Selected Cells - WinForms Data Grid](https://raw.githubusercontent.com/DevExpress-Examples/how-to-edit-multiple-values-in-gridview-at-the-same-time-e2779/25.2.3+/multi-cell-editing.gif)
+![Edit Values in Selected Cells - WinForms Data Grid](multi-cell-editing.gif)
 
 <!-- feedback -->
 ## Does This Example Address Your Development Requirements/Objectives?
@@ -17,6 +17,7 @@ Starting with <b>v25.2</b>, WinForms Data Grid and TreeList controls support mul
 
 (you will be redirected to DevExpress.com to submit your response)
 <!-- feedback end -->
+
 
 
 
